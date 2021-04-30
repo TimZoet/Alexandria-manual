@@ -1,0 +1,24 @@
+\makeglossaries
+\newglossaryentry{alexandria}{name={Alexandria},description={The Alexandria library}}
+\newglossaryentry{instance_table}{name={instance table},description={Instance table}}
+\newglossaryentry{sqlite}{name={sqlite},description={sqlite}}
+
+\newglossaryentry{blob_class}{name={\code{Blob}},description={Blob class}}
+\newglossaryentry{blob_array_class}{name={\code{BlobArray}},description={BlobArray class}}
+\newglossaryentry{instance_id_class}{name={\code{InstanceID}},description={InstanceId class}}
+\newglossaryentry{member_class}{name={\code{Member}},description={Member class}}
+\newglossaryentry{primitive_array_class}{name={\code{PrimitiveArray}},description={PrimitiveArray class}}
+\newglossaryentry{primitive_blob_class}{name={\code{PrimitiveBlob}},description={PrimitiveBlob class}}
+\newglossaryentry{property_class}{name={\code{Property}},description={Property class}}
+\newglossaryentry{reference_array_class}{name={\code{ReferenceArray}},description={ReferenceArray class}}
+\newglossaryentry{string_array_class}{name={\code{StringArray}},description={StringArray class}}
+\newglossaryentry{type_class}{name={\code{Type}},description={Type class}}
+
+% Only enable links for first occurrence of term.
+\renewcommand*{\glslinkcheckfirsthyperhook}{%
+	\ifglsused{\glslabel}%
+	{%
+		\setkeys{glslink}{hyper=false}%
+	}%
+	{}%
+}

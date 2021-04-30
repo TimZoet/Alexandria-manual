@@ -1,0 +1,55 @@
+\documentclass[twoside,a4paper,smallborder=true]{refart}
+\input{packages.tex}
+\input{defs.tex}
+\title{Alexandria}
+\author{Tim Zoet}
+\date{}
+% \emergencystretch1em  %??
+\pagestyle{headings}
+\makeindex 
+\input{glossary.tex}
+\setcounter{tocdepth}{2}
+\begin{document}
+\maketitle
+\input{abstract.tex}
+\tableofcontents
+\newpage
+
+\section{Introduction}
+\label{section:introduction}
+\input{introduction.tex}
+\newpage
+
+\section{Build Instructions}
+\label{section:build}
+\input{building.tex}
+\newpage
+
+\section{Library}
+\label{section:library}
+\input{library.tex}
+\newpage
+
+\section{Defining Types}
+\label{section:types}
+\input{types.tex}
+\newpage
+
+\section{Member Types}
+\label{section:member_types}
+\input{member_types.tex}
+\newpage
+
+\section{Object Handler}
+\label{section:object_handler}
+\input{object_handler.tex}
+\newpage
+
+\printglossaries
+\newpage
+
+\bibliographystyle{bibliography/eg-alpha-doi} 
+\bibliography{bibliography/references} 
+\printindex
+
+\end{document}
