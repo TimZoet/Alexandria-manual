@@ -17,10 +17,13 @@ To insert a type in the database and generate all tables, you can either call th
 \subsection{Property Types}
 \label{section:types:property_types}
 
-%TODO: InstanceIDs. Property that is implicitly added.
-%TODO: Wrapper classes (aka member types).
-%TODO: Blob values and endianness.
-%TODO: Forbidden property names.
+%TODO: Blob values and endianness/portability.
+
+All types are automatically given a 64-bit signed integer property. This property is used as the instance identifier. Internally, it is used as the primary key of the database table. Additionally, you can define any number of differently typed properties, ranging from integers to raw binary data.
+
+Just as with the type names, there are restrictions on property names. These are: %TODO: Forbidden property names.
+
+The remaining subsections describe all supported property types. Section~\ref{section:classes} explains how to implement C++ classes to match your type definitions.
 
 \subsubsection{Primitives}
 \label{section:types:property_types:primitives}
@@ -70,10 +73,13 @@ Section~\ref{section:member_types:blob} and Section~\ref{section:member_types:bl
 \subsubsection{References}
 \label{section:types:property_types:references}
 
-%TODO: Single values.
-%Arrays.
-%Optionals?
-%References to same type.
+%TODO: References to same type.
+
+Reference properties can be used to store references to instances of some other type. They can be added to a type using the \code{createReferenceProperty} and \code{createReferenceArrayProperty}. Both these methods take a reference to an already created type. See Listing~\ref{lst:types:property_reference}.
+
+\lstinputlisting[caption={Creating reference properties.}, label={lst:types:property_reference}]{snippets/property_reference.cpp}
+
+Single reference values are stored in the instance table as a single column value. More specifically, the identifier of the referenced instance is stored. For arrays of references, a separate table is generated. This table has a column with a reference to the instance table and a column with a reference to the referenced type. For each referenced instance in the reference array, a row is added.
 
 \subsubsection{Nested Types}
 \label{section:types:property_types:types}
