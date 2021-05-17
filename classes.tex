@@ -1,8 +1,17 @@
-With the exception of primitive and string types, all properties require the use of special wrapper classes in order to store and retrieve them from the database.
+In order to store and retrieve objects of a specific type the \gls{object_handler_class} class must be passed a C++ type and some additional information on how to match the class's member variables with specific properties. There are some strict requirements on how to define such a class, although there is also a lot of freedom.
+
+With the exception of primitive and string types, all member variables must be defined using special wrapper classes. These are described in the upcoming subsections.
+
+That being said, the order in which these member variables are defined, or even how they are structured is entirely up to you. It is also perfectly legal to define member variables that do not correspond to any property. Furthermore, you can define any number of classes and object handlers for a single type.
 
 \subsection{InstanceId}
 \label{section:member_types:instance_id}
-%TODO
+
+As stated earlier, all types have an implicit 64-bit signed integer property that is used as an instance's identifier. In the class definition, an explicit member variable must be added. This member variable must have the name \code{id} and be of type \gls{instance_id_class}.
+
+\lstinputlisting[label={lst:member_types:instance_id}]{snippets/mt_instance_id.cpp}
+
+Note that you should never initialize or modify this value. Doing so will result in undefined behaviour.
 
 \subsection{Primitive}
 \label{section:member_types:primitive}

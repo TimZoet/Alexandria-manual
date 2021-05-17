@@ -1,5 +1,9 @@
 %Type definitions and data stored in same database file.
-%The \gls{library_class} class is the interface to an on-disk library file.
-%Types can be defined using createType and createProperty methods on the library class.
-%C++ classes corresponding to defined types can be defined using wrapper classes.
-%ObjectHandler is interface to instance creation, updating, deletion, etc.
+
+The \marginlabel{See Section~\ref{section:library}.}\gls{library_class} class is the interface to a library file. It has methods for defining \marginlabel{See Section~\ref{section:types}.}types and their properties.
+
+For each type definition you can create a matching C++ class. The member variables of this class correspond to the properties of the type. With the exception of some primitive types, special wrapper \marginlabel{See Section~\ref{section:classes}.}classes are needed to correctly read and write them.
+
+The \marginlabel{See Section~\ref{section:object_handler}.}\gls{object_handler_class} class is the interface to instances of a specific type.  This class handles everything related to creating, retrieving, updating and deleting objects.
+
+When exactly you define types and create instances of these types will of course depend on your use case. You could distribute an application with a complete library containing both types and data and never have the application modify it. Alternatively, you might have a library file with just types because your application generates data at runtime. Or perhaps the application creates wholly new library files and generates both the types and data at runtime.
