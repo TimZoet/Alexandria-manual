@@ -1,0 +1,38 @@
+The \gls{object_handler_class} class is the interface to instances of a specific type. This class handles everything related to creating, retrieving, updating and deleting objects. It can be constructed through a method of the \gls{library_class}.
+
+The \gls{object_handler_class} provides two forms of access to the underlying database: direct and managed. When using direct access, you are responsible for allocating objects. Whether you do that on the stack or the heap is up to you. When using managed access, objects are allocated on the heap by the \gls{object_handler_class}. Additionally, they can be cached in memory (automatically or manually) to reduce disk access.
+
+\subsection{Construction}
+%TODO: Creating an ObjectHandler. 
+% What about multiple ObjectHandlers?
+% Member and MemberList.
+
+\subsection{Direct Access}
+
+There are two ways in which you can create new instances. The first is by using the \code{create} method. This method will add a new row to the \gls{instance_table} with all default values. It also takes a pointer parameter. If not null, the instance is immediately retrieved. See Listing~\ref{lst:object_handler:instance_create_direct}.
+
+\lstinputlisting[caption={Creating a new instance.}, label={lst:object_handler:instance_create_direct}]{snippets/instance_create_direct.cpp}
+
+The second way is with the \code{insert} method. This method takes a reference to an object that will be added to the database with all its values. Just as with the \code{create} method, the object that you pass should not have a valid identifier yet. After insertion, the identifier will be set. See Listing~\ref{lst:object_handler:instance_insert_direct}.
+
+\lstinputlisting[caption={Inserting a new instance.}, label={lst:object_handler:instance_insert_direct}]{snippets/instance_insert_direct.cpp}
+
+After modifying an object, you can update the database by passing the object to the \code{update} method. See Listing~\ref{lst:object_handler:instance_update_direct}.
+
+\lstinputlisting[caption={Updating an existing instance.}, label={lst:object_handler:instance_update_direct}]{snippets/instance_update_direct.cpp}
+
+Instances can be retrieved by their identifier. The \code{get} method takes an identifier parameter and a reference to the object to which all values are written. Just as with the \code{create} method, the identifier should not have been set yet and is initialized after retrieval. See Listing~\ref{lst:object_handler:instance_get_direct}.
+
+\lstinputlisting[caption={Retrieving an instance.}, label={lst:object_handler:instance_get_direct}]{snippets/instance_get_direct.cpp}
+
+\subsection{Managed Access}
+
+\begin{figure}[H]
+	\includegraphics[width=1\textwidth]{figures/create.pdf}
+	\caption{Creating new instances.}\label{fig:object_handler:create}
+\end{figure}
+
+\begin{figure}[H]
+	\includegraphics[width=1\textwidth]{figures/insert.pdf}
+	\caption{Insert existing objects.}\label{fig:object_handler:insert}
+\end{figure}
