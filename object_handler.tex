@@ -25,7 +25,25 @@ Instances can be retrieved by their identifier. The \code{get} method takes an i
 
 \lstinputlisting[caption={Retrieving an instance.}, label={lst:object_handler:instance_get_direct}]{snippets/instance_get_direct.cpp}
 
+Deleting an instance from the database is simple. Just call the \code{del} method with the instance identifier. See Listing~\ref{lst:object_handler:instance_delete_direct}.
+
+\lstinputlisting[caption={Deleting an instance.}, label={lst:object_handler:instance_delete_direct}]{snippets/instance_delete_direct.cpp}
+
 \subsection{Managed Access}
+
+There is a managed equivalent to all \code{create}, \code{insert}, \code{update} and \code{get} methods. They use \code{shared\_ptr}s instead of references. Pointers to the allocated objects can be stored in a cache such that repeated retrieval does not require any disk access.
+
+The first time an instance is created, accessed, inserted, etc., a new entry is added to the cache. Depending on the default caching method, either an owning pointer (\code{shared\_ptr}), non-owning pointer (\code{weak\_ptr}), or no pointer is stored. When you try go get an instance for which an entry exists in the cache, the following will happen depending on what the entry holds:
+
+\begin{itemize}
+	\item \textbf{Strong}: the \code{shared\_ptr} is returned directly.
+	\item \textbf{Weak}: the \code{weak\_ptr} is \code{lock}'ed. If there still is an owning pointer around, a new owning pointer is constructed and returned. Otherwise, the database is queried for the object.
+	\item \textbf{None}: The database is queried for the object.
+\end{itemize}
+
+The default caching method is \code{alex::CacheMethod::Weak}. If you for example retrieve an object and keep around the pointer, another retrieval will construct another \code{shared\_ptr} pointing to the same object from the \code{weak\_ptr} that is stored in the cache. No disk access would be needed until all owning pointers are discarded. To change how objects are cached by default, use the \code{setDefaultCacheMethod} method.
+
+It is also possible to manually control the way each instance is cached using the \code{setCacheMethod} and \code{clearCache} methods. Additionally, cache entries can be modified in bulk using the various \code{release*} and \code{clear} methods. Finally, you can retrieve and inspect the entire cache with the \code{getCache} method.
 
 \begin{figure}[H]
 	\includegraphics[width=1\textwidth]{figures/create.pdf}
@@ -36,3 +54,7 @@ Instances can be retrieved by their identifier. The \code{get} method takes an i
 	\includegraphics[width=1\textwidth]{figures/insert.pdf}
 	\caption{Insert existing objects.}\label{fig:object_handler:insert}
 \end{figure}
+
+\subsection{...}
+
+% TODO: Explain how references between objects can be kept valid.
