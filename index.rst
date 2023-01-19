@@ -10,6 +10,7 @@ Alexandria
     types
     classes
     object_handler
+    queries
 
 %TODO Type definitions and data stored in same database file.
 
