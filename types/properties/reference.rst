@@ -1,20 +1,44 @@
 Reference
 =========
 
-%TODO: References to same type.
-
 Reference properties can be used to store references to instances of some other type. They can be added to a type using
-the :code:`createReferenceProperty` and :code:`createReferenceArrayProperty` methods. Both these methods take a
-reference to an already created type.
+the :code:`createReferenceProperty`.
 
 .. code-block:: cpp
 
-    auto& foo   = library->createType("foo");
-    auto& bar   = library->createType("bar");
-    auto& prop0 = bar.createReferenceProperty("foo", foo);
-    auto& prop1 = bar.createReferenceArrayProperty("foos", foo);
+    auto& foo = nameSpace.createType("foo");
+    auto& bar = nameSpace.createType("bar");
+    auto& ref = bar.createReferenceProperty("foo", foo);
 
-Single reference values are stored in the instance table as a single column value. More specifically, the identifier of
-the referenced instance is stored. For arrays of references, a separate table is generated. This table has a column with
-a reference to the instance table and a column with a reference to the referenced type. For each referenced instance in
-the reference array, a row is added.
+Table Generation
+----------------
+
+Reference values are stored in the instance table as a single column value. This value is a reference to the instance
+table of the referenced type.
+
+.. figure:: /_static/images/tables/reference.svg
+
+    Instance tables. A single column is added per reference property.
+
+Class Definition
+----------------
+
+To handle references, there is the :code:`alex::Reference` class. This objects holds an :code:`alex::InstanceId` to
+which the identifier of the specified type can be assigned.
+
+.. code-block:: cpp
+
+    struct Foo
+    {
+        alex::InstanceId id;
+    };
+
+    struct Bar
+    {
+        alex::InstanceId     id;
+        alex::Reference<Foo> foo;
+    };
+
+.. note:: 
+
+    TODO: Implementing a custom class.

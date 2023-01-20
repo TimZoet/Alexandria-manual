@@ -2,20 +2,42 @@ Blob
 ====
 
 Blob properties can be used to store arbitrary binary data. No explicit type information is maintained. This is entirely
-the responsibility of the user. Note that the primitive blob property described in :doc:`/types/properties/primitive`
-also stores binary data, but that property does store type information.
+the responsibility of the user.
 
-There are two types of blob properties: single and array. They can be added to a type using the
-:code:`createBlobProperty` and :code:`createBlobArrayProperty` methods.
+A blob property can be added to a type using the :code:`createBlobProperty` method.
 
 .. code-block:: cpp
 
-    auto& type  = library->createType("myType");
-    auto& prop0 = type.createBlobProperty("blob0");
-    auto& prop1 = type.createBlobArrayProperty("blob1");
+    auto& type = nameSpace.createType("mytype");
+    auto& prop = type.createBlobProperty("myprop");
 
-Single blob values are stored in the instance table as a single column value. For arrays of blobs, a separate table is
-generated. This table has a column with a reference to the instance table and a column with a blob value. For each
-element of the blob array, a row is added.
+Table Generation
+----------------
 
-Section~\ref{section:member_types:blob} and Section~\ref{section:member_types:blob_array} describe the wrapper classes that manage blob values and arrays.
+Blob properties are stored in the instance table as a single column value.
+
+.. figure:: /_static/images/tables/blob.svg
+
+    Instance table. A single column is added per blob property.
+
+Class Definition
+----------------
+
+To handle blobs, there is the :code:`alex::Blob` class. Currently, it has two specializations: one for single objects
+and one for a :code:`std::vector` of objects. The former just holds the specified type, while the latter keeps a
+:code:`std::vector`.
+
+.. code-block:: cpp
+
+    struct Bar { int32_t x; };
+
+    struct Foo
+    {
+        alex::InstanceId             id;
+        alex::Blob<Bar>              objectBlob;
+        alex::Blob<std::vector<Bar>> vectorBlob;
+    };
+
+.. note:: 
+
+    TODO: Specializing the :code:`alex::Blob` class or implementing a custom class.

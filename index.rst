@@ -8,7 +8,6 @@ Alexandria
 
     library
     types
-    classes
     queries
 
 %TODO Type definitions and data stored in same database file.

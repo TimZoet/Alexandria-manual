@@ -1,17 +1,32 @@
 String
 ======
 
-String properties can be used to store single strings and arrays of strings. They can be added to a type using the
-:code:`createStringProperty` and :code:`createStringArrayProperty` methods.
+String properties can be used to store string values. They can be added to a type using the :code:`createStringProperty`
+method.
 
 .. code-block:: cpp
 
-    auto& type    = library->createType("myType");
-    auto& string  = type.createStringProperty("s0");
-    auto& strings = type.createStringArrayProperty("s1");
+    auto& type   = nameSpace.createType("mytype");
+    auto& string = type.createStringProperty("mystring");
 
-Single string values are stored in the instance table as a single column value. For arrays of strings, a separate table
-is generated. This table has a column with a reference to the instance table and a column with a string value. For each
-element of the string array, a row is added.
+Table Generation
+----------------
 
-Section~\ref{section:member_types:string} and Section~\ref{section:member_types:string_array} describe the wrapper classes that manage string values and arrays.
+String values are stored in the instance table as a single column value.
+
+.. figure:: /_static/images/tables/string.svg
+
+    Instance table. A single column is added per string property.
+
+Class Definition
+----------------
+
+String properties do not require any extra care when defining classes. :code:`std::string` can be used directly.
+
+.. code-block:: cpp
+
+    struct Foo
+    {
+        alex::InstanceId id;
+        std::string      s;
+    };

@@ -1,22 +1,27 @@
-Nested
-======
+Nested Type
+===========
 
-To make defining complex types a bit easier, it is possible to create type properties. This is essentially the
-equivalent of having one class as a member variable of another in C++. Types can be added to any number of other types.
-Adding a type property that would result in a circular dependency is not allowed. You can repeatedly add the same type
-(with a different name, of course).
+To allow reuse of existing types and ease the definition of more complex types, types themselves can be added as
+properties. This can even be done recursively. Adding a nested type property is the equivalent of adding all its
+properties. In terms of table generation or class definitions, there are no differences.
 
 .. code-block:: cpp
 
-    auto& float3  = library->createType("float3");
+    // Create non-instantiable type.
+    auto& float3  = nameSpace.createType("float3", false);
     float3.createPrimitiveProperty("x", alex::DataType::Float);
     float3.createPrimitiveProperty("y", alex::DataType::Float);
     float3.createPrimitiveProperty("z", alex::DataType::Float);
 
-    auto& type = library->createType("transform");
-    type.createTypeProperty("translation", float3);
-    type.createTypeProperty("rotation", float3);
-    type.createTypeProperty("scale", float3);
+    // Create type with multiple float3.
+    auto& transform = nameSpace.createType("transform");
+    transform.createNestedTypeProperty("translation", float3);
+    transform.createNestedTypeProperty("rotation", float3);
 
-Adding a type property effectively calls the property creation methods for the type that you're adding. In the above
-example, the :code:`transform` type would end up with 9 float columns in the instance table.
+    // float3 must be committed before transform.
+    float3.commit();
+    transform.commit();
+
+.. figure:: /_static/images/tables/nested_type.svg
+
+    Instance table.

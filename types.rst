@@ -1,12 +1,14 @@
-Defining Types
-==============
+Types
+=====
 
 .. toctree::
-    :maxdepth: 3
+    :maxdepth: 2
     :titlesonly:
     :hidden:
 
+    types/namespaces
     types/properties
+    types/type_descriptors
 
 A new type can be created with the library's :code:`createType` method, which returns a reference to the new
 :code:`alex::Type` object. The reference is valid as long as the library has not been deallocated. You can also retrieve
