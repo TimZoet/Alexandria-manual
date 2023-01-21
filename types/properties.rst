@@ -18,25 +18,15 @@ Properties
     properties/reference_array
     properties/nested
 
-%TODO: Blob values and endianness/portability.
+Types are made up of properties. There are a number of basic property types such as integers, floats and strings that
+can be defined. Additonally, raw binary data can be stored in the form of blob properties to allow for compact storage
+and fast retrieval. Also important are reference properties, allowing instances of one type to reference instances of
+another. All properties can be defined as being an array.
 
-All types are automatically given a 64-bit signed integer property. This property is used as the instance identifier.
-Internally, it is used as the primary key of the database table. Additionally, you can define any number of differently
-typed properties, ranging from integers to raw binary data.
+When committing a type, at least one table is generated to hold the data that you'll be inserting. This is the instance
+table. All instance tables have an integer column with the Sqlite rowid, as well as a fixed length text column that will
+store the UUID of each instance. All properties that specify a single value result in an additional column being added.
+For array properties, separate array tables are generated that link to the instance table.
 
-Just as with the type names, there are restrictions on property names. These are: %TODO: Forbidden property names.
-
-The remaining subsections describe all supported property types. Section~\ref{section:classes} explains how to implement
-C++ classes to match your type definitions.
-
-
-
-In order to store and retrieve objects of a specific type the :code:`alex::ObjectHandler` class must be passed a C++
-type and some additional information on how to match the class's member variables with specific properties. There are
-some strict requirements on how to define such a class, although there is also a lot of freedom.
-
-With the exception of primitive and string types, all member variables must be defined using special wrapper classes.
-
-That being said, the order in which these member variables are defined, or even how they are structured is entirely up
-to you. It is also perfectly legal to define member variables that do not correspond to any property. Furthermore, you
-can define any number of classes and object handlers for a single type.
+Each property needs to be represented in the C++ class definition. More complex properties require special wrapper
+classes that take care of reading from and writing to the underlying Sqlite database.
