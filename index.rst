@@ -10,19 +10,26 @@ Alexandria
     types
     queries
 
-%TODO Type definitions and data stored in same database file.
+:code:`Alexandria` is a C++ library for data serialization built on top of `SQLite <https://www.sqlite.org>`_. As a
+user, you can define types with properties. Type definitions are stored in a database and are used to generate tables.
+These tables will hold instances the registered types. Because it is built on top of SQLite, Alexandria can efficiently
+handle large amounts of data. In addition, it allows running queries on your data. The main advantages can be summarized
+as follows:
 
-The :code:`alex::Library` class is the interface to a :doc:`library` file. It has methods for :doc:`types` and their
-:doc:`types/properties`.
+* SQLite is a well-established database format that can be used from other programming languages and is understood by
+  many existing applications. This eases integration with other code, and makes it possible to inspect your data without
+  having to write custom debugging tools.
+* Using a SQL database instantly creates opportunities for writing complex and efficient queries on your data. Other
+  data formats (or even your own, custom developed format) may not offer this out of the box without a considerable
+  amount of reinventing the wheel.
+* The data specification and data itself are stored in the same file. While a lone database will probably not tell the
+  whole story and fully understanding the data requires the accompanying C++ code, there is a decent amount of
+  decoupling between data and code.
+* Not including the database file itself, there is no reliance on the filesystem, avoiding a common source of headaches.
+  Instead, objects are identified with UUIDs.
+* Different applications (or more generally, independent systems) can interact with the same database, registering their
+  own types, without affecting one another. This is great for e.g. plugin systems.
 
-For each type definition you can create a matching C++ class. The member variables of this class correspond to the
-properties of the type. With the exception of some primitive types, special wrapper classes are needed to correctly read
-and write them.
-
-The :doc:`/object_handler` class is the interface to instances of a specific type.  This class handles everything
-related to creating, retrieving, updating and deleting objects.
-
-When exactly you define types and create instances of these types will of course depend on your use case. You could
-distribute an application with a complete library containing both types and data and never have the application modify
-it. Alternatively, you might have a library file with just types because your application generates data at runtime. Or
-perhaps the application creates wholly new library files and generates both the types and data at runtime.
+Managing libraries (in Alexandria lingo a database is called a library) is covered in the :doc:`library` section. How to
+define types and match them to C++ classes/structs is explained in the :doc:`types` section. How to handle the
+insertion, editing and retrieval of instances of the types you defined can be found in the :doc:`queries` section.

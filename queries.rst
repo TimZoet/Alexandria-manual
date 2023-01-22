@@ -13,7 +13,7 @@ Queries
 
 To insert, get, update and delete objects there are various query classes. For each type (-descriptor) and operation,
 you must construct a separate query object from an :code:`alex::TypeDescriptor`. Internally, a query object manages one
-or more Sqlite statements that operate on the type's underlying tables. Because constructing a query is expensive, you
+or more SQLite statements that operate on the type's underlying tables. Because constructing a query is expensive, you
 should cache them if they are going to be used more often.
 
 The remaining pages in this section will describe the query classes. For simplicity's sake, they will all assume a
