@@ -22,6 +22,18 @@ After updating, the new values will be stored in the database.
     obj.b = -10.0f;
     updater(obj);
 
-.. note::
+Trying to update an object without a valid id will throw.
 
-    Updating a non-existent object does not (yet) throw or return an error code. It will fail silently.
+.. code-block:: cpp
+
+    Foo obj;
+    updater(obj); // Should throw.
+
+Trying to update a non-existent object will not throw. The update call will return false.
+
+.. code-block:: cpp
+
+    Foo obj;
+    obj.id.regenerate();
+    auto anythingHappened = updater(obj);
+    // anythingHappened should be false.

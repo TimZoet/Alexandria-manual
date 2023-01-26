@@ -28,13 +28,28 @@ After deleting, the instance will no longer be in the database.
         deleter(id);
     }
 
-    // You can also directly pass an object instead of just the id.
+    // You can also directly pass an object instead of just the id,
+    // which will reset the object's identifier.
     {
         Foo obj{.a = 10, .b = 20.0f};
         inserter(obj);
         deleter(obj);
+        // After delete, obj.id.valid() == false.
     }
 
-.. note::
+Trying to delete an object without a valid id will throw.
 
-    Deleting a non-existent object does not (yet) throw or return an error code.
+.. code-block:: cpp
+
+    Foo obj;
+    deleter(obj); // Should throw.
+
+Trying to delete a non-existent object will not throw. After all, the post-condition of the object not existing in the
+database will be met. The delete call will instead return false.
+
+.. code-block:: cpp
+
+    Foo obj;
+    obj.id.regenerate();
+    auto anythingHappened = deleter(obj);
+    // anythingHappened should be false.
