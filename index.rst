@@ -21,7 +21,8 @@ as follows:
   having to write custom debugging tools.
 * Using a SQL database instantly creates opportunities for writing complex and efficient queries on your data. Other
   data formats (or even your own, custom developed format) may not offer this out of the box without a considerable
-  amount of reinventing the wheel.
+  amount of reinventing the wheel. Alexandria uses the `cppql <https://github.com/TimZoet/cppql>`_ library to interface
+  with SQLite. This library offers type safe, pure C++ access to the underlying database.
 * The data specification and data itself are stored in the same file. While a lone database will probably not tell the
   whole story and fully understanding the data requires the accompanying C++ code, there is a decent amount of
   decoupling between data and code.

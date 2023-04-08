@@ -18,4 +18,4 @@ When defining a class, you must always add an :code:`InstanceId` member.
         ...
     };
 
-The identifier is not initialized until you have inserted an object (see :doc:`/queries/insert_query`).
+The identifier is not initialized until you have inserted an object (see :doc:`/queries/basic/insert_query`).
