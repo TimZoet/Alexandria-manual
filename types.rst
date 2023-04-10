@@ -82,18 +82,18 @@ This is done by defining :doc:`/types/type_descriptors`.
 
 .. code-block:: cpp
 
-    using WheelMemberList = alex::MemberList<alex::Member<&Wheel::radius>,
-                                             alex::Member<&Wheel::width>>;
+    using WheelMemberList = alex::MemberList<alex::Member<"radius", &Wheel::radius>,
+                                             alex::Member<"width", &Wheel::width>>;
 
     using BicycleDescriptor = alex::GenerateTypeDescriptor<
-        alex::Member<&BicycleDescriptor::id>,
-        alex::NestedMember<WheelMemberList, &BicycleDescriptor::front>,
-        alex::NestedMember<WheelMemberList, &BicycleDescriptor::back>
+        alex::Member<"id", &BicycleDescriptor::id>,
+        alex::NestedMember<"front", WheelMemberList, &BicycleDescriptor::front>,
+        alex::NestedMember<"back", WheelMemberList, &BicycleDescriptor::back>
     >;
     
     using PersonDescriptor = alex::GenerateTypeDescriptor<
-        alex::Member<&Person::id>,
-        alex::Member<&Person::bicycles>
+        alex::Member<"id", &Person::id>,
+        alex::Member<"bycicles", &Person::bicycles>
     >;
     
     auto bicycleDesc = BicycleDescriptor(bicycle);

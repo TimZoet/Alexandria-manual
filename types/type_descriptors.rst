@@ -23,19 +23,24 @@ Consider a very simple type with just two primitive properties.
     fooType.commit();
 
 A type descriptor can be defined through the :code:`alex::GenerateTypeDescriptor` utility. This generator takes a list
-of :code:`alex::Member` types which hold pointers to member variables. The order of these members must match the order
-in which the properties were created. Also, the first member must always be the identifier. A type descriptor instance
-can be created from an :code:`alex::Type`. This will do a runtime check to see if the class members match the
-properties.
+of :code:`alex::Member` types which hold pointers to member variables and a unique name by which to identify them. The
+names can be used for writing :doc:`/queries/extended`. Note that although in all these examples the unique names match
+the member variables of the structs, this is not required.
+
+The order of these members as past to the generator must match the order in which the properties were created. Also, the
+first member must always be the identifier. A type descriptor instance can be created from an :code:`alex::Type`. This
+will do a runtime check to see if the class members match the properties.
 
 .. code-block:: cpp
 
+    // Generate type descriptor typedef.
     using FooDescriptor = alex::GenerateTypeDescriptor<
-        alex::Member<&Foo::id>,
-        alex::Member<&Foo::x>,
-        alex::Member<&Foo::y>
+        alex::Member<"id", &Foo::id>,
+        alex::Member<"x", &Foo::x>,
+        alex::Member<"y", &Foo::y>
     >;
 
+    // Create instance of type descriptor from alex::Type.
     auto fooDesc = FooDescriptor(fooType);
 
 Member Order
@@ -54,9 +59,9 @@ descriptor is relevant. See the code snippet below, which is more or less equiva
     };
 
     using FooDescriptor = alex::GenerateTypeDescriptor<
-        alex::Member<&Foo::id>,
-        alex::Member<&Foo::x>, // x and y still in the same order to match type definition.
-        alex::Member<&Foo::y>
+        alex::Member<"id", &Foo::id>,
+        alex::Member<"x", &Foo::x>, // x and y still in the same order to match alex::Type definition.
+        alex::Member<"y", &Foo::y>
     >;
 
 Nested Members
@@ -90,16 +95,19 @@ To facilitate typical class layouts with complex member variables, the generator
     mat2x2Type.createNestedTypeProperty("b", float2Type);
     mat2x2Type.commit();
 
-In addition to a pointer to member variable, the :code:`alex::NestedMember` takes an :code:`alex::MemberList` type.
-This list type itself takes a list of members. The generator expands all nested members.
+In addition to a unique name and pointer to member variable, the :code:`alex::NestedMember` takes an
+:code:`alex::MemberList` type. This list type itself takes a list of members. The generator expands all nested members.
+Names are chained together using the :code:`'.'` character.
 
 .. code-block:: cpp
 
-    using Float2MemberList = alex::MemberList<alex::Member<&float2::x>, alex::Member<&float2::y>>;
+    using Float2MemberList = alex::MemberList<alex::Member<"x", &float2::x>,
+                                              alex::Member<"y", &float2::y>>;
+    
     using MatrixDescriptor = alex::GenerateTypeDescriptor<
-        alex::Member<&mat2x2::id>,
-        alex::NestedMember<Float2MemberList, &mat2x2::a>, // Expands to alex::Member<&mat2x2::a, &float2::x>, alex::Member<&mat2x2::a, &float2::y>.
-        alex::NestedMember<Float2MemberList, &mat2x2::b>  // Expands to alex::Member<&mat2x2::b, &float2::x>, alex::Member<&mat2x2::b, &float2::y>.
+        alex::Member<"id", &mat2x2::id>,
+        alex::NestedMember<"a", Float2MemberList, &mat2x2::a>, // Expands to alex::Member<"a.x", &mat2x2::a, &float2::x>, alex::Member<"a.y", &mat2x2::a, &float2::y>.
+        alex::NestedMember<"b", Float2MemberList, &mat2x2::b>  // Expands to alex::Member<"b.x", &mat2x2::b, &float2::x>, alex::Member<"b.y", &mat2x2::b, &float2::y>.
     >;
 
 To the :code:`alex::MemberList` you can also pass a :code:`alex::NestedMember`, allowing recursion of arbitrary depth.
@@ -112,16 +120,16 @@ has a nested property does not mean the class needs a nested member type and vic
     struct mat2x2
     {
         alex::InstanceId id;
-        float2           ax;
-        float2           ay;
-        float2           bx;
-        float2           by;
+        float            ax;
+        float            ay;
+        float            bx;
+        float            by;
     };
 
     using MatrixDescriptor = alex::GenerateTypeDescriptor<
-        alex::Member<&mat2x2::id>,
-        alex::Member<&mat2x2::ax>,
-        alex::Member<&mat2x2::ay>,
-        alex::Member<&mat2x2::bx>,
-        alex::Member<&mat2x2::gy>
+        alex::Member<"id", &mat2x2::id>,
+        alex::Member<"a.x", &mat2x2::ax>,
+        alex::Member<"a.y", &mat2x2::ay>,
+        alex::Member<"b.x", &mat2x2::bx>,
+        alex::Member<"b.y", &mat2x2::by>
     >;
