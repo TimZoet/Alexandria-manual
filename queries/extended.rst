@@ -8,7 +8,7 @@ Extended Queries
 
     extended/primitive_search
     extended/primitive_array_search
-    extended/reference_search
+    extended/reference_array_search
 
 A big selling point of using SQLite is the ability to perform queries on your data. To that end, a large set of extended
 query functions and classes are available. These allow performing e.g. searches of objects by the value of one of their
