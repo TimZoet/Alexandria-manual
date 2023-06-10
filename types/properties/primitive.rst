@@ -1,14 +1,14 @@
 Primitive
 =========
 
-Primitive properties can be used to store integer and floating point values. They can be added to a type using the 
-:code:`createPrimitiveProperty` method.
+Primitive properties can be used to store integer and floating point values. They can be added to a type layout using
+the :code:`createPrimitiveProperty` method.
 
 .. code-block:: cpp
 
-    auto& type = nameSpace.createType("mytype");
-    auto& flt  = type.createPrimitiveProperty("prop0", alex::DataType::Float);
-    auto& i64  = type.createPrimitiveProperty("prop1", alex::DataType::Int64);
+    alex::TypeLayout layout;
+    alex::PropertyLayout& prop = layout.createPrimitiveProperty("prop0", alex::DataType::Float);
+    alex::PropertyLayout& prop = layout.createPrimitiveProperty("prop1", alex::DataType::Int64);
 
 Table Generation
 ----------------

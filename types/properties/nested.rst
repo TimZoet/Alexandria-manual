@@ -8,19 +8,17 @@ properties. In terms of table generation or class definitions, there are no diff
 .. code-block:: cpp
 
     // Create non-instantiable type.
-    auto& float3  = nameSpace.createType("float3", false);
-    float3.createPrimitiveProperty("x", alex::DataType::Float);
-    float3.createPrimitiveProperty("y", alex::DataType::Float);
-    float3.createPrimitiveProperty("z", alex::DataType::Float);
+    alex::TypeLayout float3Layout;
+    float3Layout.createPrimitiveProperty("x", alex::DataType::Float);
+    float3Layout.createPrimitiveProperty("y", alex::DataType::Float);
+    float3Layout.createPrimitiveProperty("z", alex::DataType::Float);
+    auto& float3  = float3Layout.commit(nameSpace, "float3", alex::TypeLayout::Instantiable::False);
 
     // Create type with multiple float3.
-    auto& transform = nameSpace.createType("transform");
-    transform.createNestedTypeProperty("translation", float3);
-    transform.createNestedTypeProperty("rotation", float3);
-
-    // float3 must be committed before transform.
-    float3.commit();
-    transform.commit();
+    alex::TypeLayout transformLayout;
+    transformLayout.createNestedTypeProperty("translation", float3);
+    transformLayout.createNestedTypeProperty("rotation", float3);
+    auto& transform = transformLayout.commit(nameSpace, "transform");
 
 .. figure:: /_static/images/tables/nested_type.svg
 

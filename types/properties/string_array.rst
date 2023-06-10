@@ -1,13 +1,13 @@
 String Array
 ============
 
-String array properties can be used to store lists of string values. They can be added to a type
-using the :code:`createStringArrayProperty` method.
+String array properties can be used to store lists of string values. They can be added to a type layout using the
+:code:`createStringArrayProperty` method.
 
 .. code-block:: cpp
 
-    auto& type = nameSpace.createType("mytype");
-    auto& ints = type.createStringArrayProperty("strings");
+    alex::TypeLayout layout;
+    alex::PropertyLayout& prop = layout.createStringArrayProperty("myprop");
 
 Table Generation
 ----------------

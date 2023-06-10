@@ -5,7 +5,7 @@ All types have an implicit identifier property. This property is added automatic
 
 .. code-block:: cpp
 
-    auto& type = nameSpace.createType("mytype");
+    alex::TypeLayout layout;
     // Identifier is added implicitly.
 
 When defining a class, you must always add an :code:`InstanceId` member.

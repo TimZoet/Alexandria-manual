@@ -4,12 +4,12 @@ Blob Array
 Blob array properties can be used to store lists of arbitrary binary data. No explicit type information is maintained.
 This is entirely the responsibility of the user.
 
-A blob array property can be added to a type using the :code:`createBlobArrayProperty` method.
+A blob array property can be added to a type layout using the :code:`createBlobArrayProperty` method.
 
 .. code-block:: cpp
 
-    auto& type = nameSpace.createType("mytype");
-    auto& prop = type.createBlobArrayProperty("myprop");
+    alex::TypeLayout layout;
+    alex::PropertyLayout& prop = layout.createBlobArrayProperty("myprop");
 
 Table Generation
 ----------------

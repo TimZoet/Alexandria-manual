@@ -2,12 +2,12 @@ Primitive Array
 ===============
 
 Primitive array properties can be used to store lists of integer and floating point values. They can be added to a type
-using the :code:`createPrimitiveArrayProperty` method.
+layout using the :code:`createPrimitiveArrayProperty` method.
 
 .. code-block:: cpp
 
-    auto& type = nameSpace.createType("mytype");
-    auto& ints = type.createPrimitiveArrayProperty("myprop", alex::DataType::Int32);
+    alex::TypeLayout layout;
+    alex::PropertyLayout& prop = layout.createPrimitiveArrayProperty("myprop", alex::DataType::Int32);
 
 Primitive arrays should only be used when storing small amounts of data that must be searchable. In all other scenarios,
 primitive blobs are the better alternative.

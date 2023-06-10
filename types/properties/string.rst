@@ -1,13 +1,13 @@
 String
 ======
 
-String properties can be used to store string values. They can be added to a type using the :code:`createStringProperty`
-method.
+String properties can be used to store string values. They can be added to a type layout using the
+:code:`createStringProperty` method.
 
 .. code-block:: cpp
 
-    auto& type   = nameSpace.createType("mytype");
-    auto& string = type.createStringProperty("mystring");
+    alex::TypeLayout layout;
+    alex::PropertyLayout& prop = layout.createStringProperty("myprop");
 
 Table Generation
 ----------------

@@ -17,19 +17,20 @@ Consider a very simple type with just two primitive properties.
         int32_t          y;
     };
 
-    auto& fooType = nameSpace.createType("foo");
-    fooType.createPrimitiveProperty("x", alex::DataType::Float);
-    fooType.createPrimitiveProperty("y", alex::DataType::Int32);
-    fooType.commit();
+    alex::TypeLayout layout;
+    layout.createPrimitiveProperty("x", alex::DataType::Float);
+    layout.createPrimitiveProperty("y", alex::DataType::Int32);
+    auto& fooType = *layout.commit(nameSpace, "foo").second;
+    
 
 A type descriptor can be defined through the :code:`alex::GenerateTypeDescriptor` utility. This generator takes a list
 of :code:`alex::Member` types which hold pointers to member variables and a unique name by which to identify them. The
 names can be used for writing :doc:`/queries/extended`. Note that although in all these examples the unique names match
 the member variables of the structs, this is not required.
 
-The order of these members as past to the generator must match the order in which the properties were created. Also, the
-first member must always be the identifier. A type descriptor instance can be created from an :code:`alex::Type`. This
-will do a runtime check to see if the class members match the properties.
+The order of these members as passed to the generator must match the order in which the properties were created. Also,
+the first member must always be the identifier. A type descriptor instance can be created from an :code:`alex::Type`.
+This will do a runtime check to see if the class members match the properties.
 
 .. code-block:: cpp
 
@@ -85,15 +86,15 @@ To facilitate typical class layouts with complex member variables, the generator
         float2           b;
     };
 
-    auto& float2Type = nameSpace.createType("float2", false);
-    float2Type.createPrimitiveProperty("x", alex::DataType::Float);
-    float2Type.createPrimitiveProperty("y", alex::DataType::Float);
-    float2Type.commit();
+    alex::TypeLayout float2Layout;
+    float2Layout.createPrimitiveProperty("x", alex::DataType::Float);
+    float2Layout.createPrimitiveProperty("y", alex::DataType::Float);
+    auto& float2Type = *float2Layout.commit(nameSpace, "float2", alex::TypeLayout::Instantiable::False).second;
 
-    auto& mat2x2Type = nameSpace.createType("mat2x2", false);
-    mat2x2Type.createNestedTypeProperty("a", float2Type);
-    mat2x2Type.createNestedTypeProperty("b", float2Type);
-    mat2x2Type.commit();
+    alex::TypeLayout mat2x2Layout;
+    mat2x2Layout.createNestedTypeProperty("a", float2Type);
+    mat2x2Layout.createNestedTypeProperty("b", float2Type);
+    auto& mat2x2Type = *mat2x2Layout.commit(nameSpace, "mat2x2", alex::TypeLayout::Instantiable::False).second;
 
 In addition to a unique name and pointer to member variable, the :code:`alex::NestedMember` takes an
 :code:`alex::MemberList` type. This list type itself takes a list of members. The generator expands all nested members.

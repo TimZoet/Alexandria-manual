@@ -2,13 +2,15 @@ Reference Array
 ===============
 
 Reference array properties can be used to store lists of references to instances of some other type. They can be added
-to a type using the :code:`createReferenceArrayProperty`.
+to a type layout using the :code:`createReferenceArrayProperty`.
 
 .. code-block:: cpp
 
-    auto& foo = nameSpace.createType("foo");
-    auto& bar = nameSpace.createType("bar");
-    auto& ref = bar.createReferenceArrayProperty("foo", foo);
+    // Previously created type foo.
+    alex::Type& foo = ...;
+
+    alex::TypeLayout layout;
+    alex::PropertyLayout& prop = layout.createReferenceArrayProperty("myprop", foo);
 
 Table Generation
 ----------------

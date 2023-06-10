@@ -37,10 +37,10 @@ simplicity's sake, they will all assume a simple type :code:`Foo`, defined below
     auto& nameSpace = lib->createNamespace("main");
 
     // Define Foo type.
-    auto& fooType = nameSpace.createType("foo");
-    fooType.createPrimitiveProperty("a", alex::DataType::Int32);
-    fooType.createPrimitiveProperty("b", alex::DataType::Float);
-    fooType.commit();
-
+    alex::TypeLayout layout;
+    layout.createPrimitiveProperty("a", alex::DataType::Int32);
+    layout.createPrimitiveProperty("b", alex::DataType::Float);
+    auto& fooType = *layout.commit(nameSpace, "foo").second;
+    
     // Setup TypeDescriptor.
     auto fooDescriptor = FooDescriptor(fooType);

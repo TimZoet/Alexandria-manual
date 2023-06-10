@@ -1,14 +1,16 @@
 Reference
 =========
 
-Reference properties can be used to store references to instances of some other type. They can be added to a type using
-the :code:`createReferenceProperty`.
+Reference properties can be used to store references to instances of some other type. They can be added to a type layout
+using the :code:`createReferenceProperty`.
 
 .. code-block:: cpp
 
-    auto& foo = nameSpace.createType("foo");
-    auto& bar = nameSpace.createType("bar");
-    auto& ref = bar.createReferenceProperty("foo", foo);
+    // Previously created type foo.
+    alex::Type& foo = ...;
+
+    alex::TypeLayout layout;
+    alex::PropertyLayout& prop = layout.createReferenceProperty("myprop", foo);
 
 Table Generation
 ----------------
